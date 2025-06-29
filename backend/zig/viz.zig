@@ -1,88 +1,33 @@
 const std = @import("std");
+const builtin = @import("builtin");
 const testing = std.testing;
-const vizjs_types = @import("vizjs_types.zig");
+const core = @import("core.zig");
 
-const str =
-    \\ {
-    \\     "graphAttributes": {
-    \\         "rankdir": "LR"
-    \\     },
-    \\     "nodeAttributes": {
-    \\         "shape": "circle"
-    \\     },
-    \\     "nodes": [
-    \\         {
-    \\             "name": "a",
-    \\             "attributes": {
-    \\                 "label": {
-    \\                     "html": "&lt;i&gt;A&lt;/i&gt;"
-    \\                 },
-    \\                 "color": "red"
-    \\             }
-    \\         },
-    \\         {
-    \\             "name": "b",
-    \\             "attributes": {
-    \\                 "label": {
-    \\                     "html": "&lt;b&gt;A&lt;/b&gt;"
-    \\                 },
-    \\                 "color": "green"
-    \\             }
-    \\         }
-    \\     ],
-    \\     "edges": [
-    \\         {
-    \\             "tail": "a",
-    \\             "head": "b",
-    \\             "attributes": {
-    \\                 "label": "1"
-    \\             }
-    \\         },
-    \\         {
-    \\             "tail": "b",
-    \\             "head": "c",
-    \\             "attributes": {
-    \\                 "label": "2",
-    \\                 "headport": "name"
-    \\             }
-    \\         }
-    \\     ],
-    \\     "subgraphs": [
-    \\         {
-    \\             "name": "cluster_1",
-    \\             "nodes": [
-    \\                 {
-    \\                     "name": "c",
-    \\                     "attributes": {
-    \\                         "label": {
-    \\                             "html": "&lt;table&gt;&lt;tr&gt;&lt;td&gt;test&lt;/td&gt;&lt;td port=\"name\"&gt;C&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"
-    \\                         }
-    \\                     }
-    \\                 }
-    \\             ]
-    \\         }
-    \\     ]
-    \\ }
-;
+var allocator = std.heap.wasm_allocator;
 
-test {
-    const allocator = testing.allocator;
-    const res = try std.json.parseFromSlice(
-        vizjs_types.Graph,
+export fn viz_str_alloc(len: usize) [*]u8 {
+    const buf = allocator.alloc(u8, len) catch unreachable;
+    return buf.ptr;
+}
+
+export fn viz_str_free(ptr: [*]u8, len: usize) void {
+    allocator.free(ptr[0..len]);
+}
+
+export fn viz_parse_json_to_svg(
+    json_string_ptr: [*]u8,
+    len: u32,
+) [*]const u8 {
+    const _str: []const u8 = json_string_ptr[0..len];
+
+    const _res = core.viz_parse_json_to_svg(
         allocator,
-        str,
-        .{},
-    );
-    defer res.deinit();
-
-    try testing.expectEqualStrings(
-        "c",
-        res.value.subgraphs.?[0].nodes.?[0].name,
-    );
-
-    const node0_attributes = res.value.nodes.?[0].attributes.?.*;
-    const value = node0_attributes.object.get("label").?.object.get(
-        "html",
-    ).?.string;
-    try testing.expectEqualStrings("&lt;i&gt;A&lt;/i&gt;", value);
+        _str,
+    ) catch unreachable;
+    defer allocator.free(_res);
+    const res: [*:0]const u8 = @ptrCast(allocator.dupeZ(
+        u8,
+        _res,
+    ) catch unreachable);
+    return res;
 }
