@@ -6,7 +6,7 @@
     "wasm",
     "WebAssembly"
   ],
-  "version": "0.0.1",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IvanGoncharov/dotviz.git"
@@ -37,6 +37,8 @@
     "typedoc-plugin-mdn-links": "5.0.2"
   },
   "scripts": {
+    "preversion": "bash ./scripts/checkgit.sh && npm ci --ignore-scripts",
+    "version": "npm test",
     "test": "mocha",
     "docs": "typedoc types/index.d.ts"
   }
