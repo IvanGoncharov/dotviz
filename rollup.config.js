@@ -20,7 +20,7 @@ export default [
   {
     input: "src/index.js",
     output: {
-      file: "dist/viz.js",
+      file: "npmDist/viz.js",
       format: "es",
       banner: getBanner,
     },
@@ -34,7 +34,7 @@ export default [
   {
     input: "src/index.js",
     output: {
-      file: "dist/viz.cjs",
+      file: "npmDist/viz.cjs",
       format: "cjs",
       banner: getBanner,
     },
@@ -49,7 +49,7 @@ export default [
     input: "src/index.js",
     output: {
       name: "Viz",
-      file: "dist/viz-global.js",
+      file: "npmDist/viz-global.js",
       format: "umd",
       banner: getBanner,
       plugins: [terser()],

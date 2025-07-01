@@ -1,4 +1,4 @@
-dist/
 lib/
+npmDist/
 node_modules/
 docs/
