@@ -1,44 +1,44 @@
-import assert from "node:assert/strict";
-import * as VizPackage from "../src/index.js";
+import assert from 'node:assert/strict';
+import * as VizPackage from '../src/index.js';
 
-describe("Viz", function() {
+describe('Viz', function () {
   let viz;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     viz = await VizPackage.instance();
   });
 
-  describe("rendering graph objects", function() {
-    it("empty graph", function() {
+  describe('rendering graph objects', function () {
+    it('empty graph', function () {
       const result = viz.render({});
 
       assert.deepStrictEqual(result, {
-        status: "success",
+        status: 'success',
         output: `digraph {
 	graph [bb="0,0,0,0"];
 	node [label="\\N"];
 }
 `,
-        errors: []
+        errors: [],
       });
     });
 
-    it("attributes in options override options in input", function() {
+    it('attributes in options override options in input', function () {
       const result = viz.render(
         {
           nodeAttributes: {
-            shape: "rectangle"
-          }
+            shape: 'rectangle',
+          },
         },
         {
           nodeAttributes: {
-            shape: "circle"
-          }
-        }
+            shape: 'circle',
+          },
+        },
       );
 
       assert.deepStrictEqual(result, {
-        status: "success",
+        status: 'success',
         output: `digraph {
 	graph [bb="0,0,0,0"];
 	node [label="\\N",
@@ -46,19 +46,17 @@ describe("Viz", function() {
 	];
 }
 `,
-        errors: []
+        errors: [],
       });
     });
 
-    it("just edges", function() {
+    it('just edges', function () {
       const result = viz.render({
-        edges: [
-          { tail: "a", head: "b" }
-        ]
+        edges: [{ tail: 'a', head: 'b' }],
       });
 
       assert.deepStrictEqual(result, {
-        status: "success",
+        status: 'success',
         output: `digraph {
 	graph [bb="0,0,54,108"];
 	node [label="\\N"];
@@ -71,20 +69,18 @@ describe("Viz", function() {
 	a -> b	[pos="e,27,36.104 27,71.697 27,64.407 27,55.726 27,47.536"];
 }
 `,
-        errors: []
+        errors: [],
       });
     });
 
-    it("undirected graph", function() {
+    it('undirected graph', function () {
       const result = viz.render({
         directed: false,
-        edges: [
-          { tail: "a", head: "b" }
-        ]
+        edges: [{ tail: 'a', head: 'b' }],
       });
 
       assert.deepStrictEqual(result, {
-        status: "success",
+        status: 'success',
         output: `graph {
 	graph [bb="0,0,54,108"];
 	node [label="\\N"];
@@ -97,24 +93,24 @@ describe("Viz", function() {
 	a -- b	[pos="27,71.697 27,60.846 27,46.917 27,36.104"];
 }
 `,
-        errors: []
+        errors: [],
       });
     });
 
-    it("html attributes", function() {
+    it('html attributes', function () {
       const result = viz.render({
         nodes: [
           {
-            name: "a",
+            name: 'a',
             attributes: {
-              label: { html: "<b>A</b>" }
-            }
-          }
-        ]
+              label: { html: '<b>A</b>' },
+            },
+          },
+        ],
       });
 
       assert.deepStrictEqual(result, {
-        status: "success",
+        status: 'success',
         output: `digraph {
 	graph [bb="0,0,54,36"];
 	a	[height=0.5,
@@ -123,49 +119,45 @@ describe("Viz", function() {
 		width=0.75];
 }
 `,
-        errors: []
+        errors: [],
       });
     });
 
-    it("default attributes, nodes, edges, and nested subgraphs", function() {
+    it('default attributes, nodes, edges, and nested subgraphs', function () {
       const result = viz.render({
         graphAttributes: {
-          rankdir: "LR"
+          rankdir: 'LR',
         },
         nodeAttributes: {
-          shape: "circle"
+          shape: 'circle',
         },
         nodes: [
-          { name: "a", attributes: { label: "A", color: "red" } },
-          { name: "b", attributes: { label: "B", color: "green" } }
+          { name: 'a', attributes: { label: 'A', color: 'red' } },
+          { name: 'b', attributes: { label: 'B', color: 'green' } },
         ],
         edges: [
-          { tail: "a", head: "b", attributes: { label: "1" } },
-          { tail: "b", head: "c", attributes: { label: "2" } }
+          { tail: 'a', head: 'b', attributes: { label: '1' } },
+          { tail: 'b', head: 'c', attributes: { label: '2' } },
         ],
         subgraphs: [
           {
-            name: "cluster_1",
-            nodes: [
-              { name: "c", attributes: { label: "C", color: "blue" } }
-            ],
-            edges: [
-              { tail: "c", head: "d", attributes: { label: "3" } }
-            ],
+            name: 'cluster_1',
+            nodes: [{ name: 'c', attributes: { label: 'C', color: 'blue' } }],
+            edges: [{ tail: 'c', head: 'd', attributes: { label: '3' } }],
             subgraphs: [
               {
-                name: "cluster_2",
+                name: 'cluster_2',
                 nodes: [
-                  { name: "d", attributes: { label: "D", color: "orange" } }
-                ]
-              }
-            ]
-          }
-        ]
+                  { name: 'd', attributes: { label: 'D', color: 'orange' } },
+                ],
+              },
+            ],
+          },
+        ],
       });
 
       assert.deepStrictEqual(result, {
-        status: "success",
+        status: 'success',
         output: `digraph {
 	graph [bb="0,0,297.04,84",
 		rankdir=LR
@@ -208,7 +200,7 @@ describe("Viz", function() {
 		pos="e,157.62,42 115.49,42 124.55,42 135.85,42 146.16,42"];
 }
 `,
-        errors: []
+        errors: [],
       });
     });
   });

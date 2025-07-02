@@ -1,5 +1,5 @@
-import { instance } from "../../src/index.js";
-import { measure, randomGraph, dotStringify } from "./utils.js";
+import { instance } from '../../src/index.js';
+import { measure, randomGraph, dotStringify } from './utils.js';
 
 const tests = [
   { nodeCount: 100, randomEdgeCount: 0 },
@@ -10,10 +10,10 @@ const tests = [
   { nodeCount: 5000, randomEdgeCount: 1000 },
   { nodeCount: 100, randomEdgeCount: 100 },
   { nodeCount: 100, randomEdgeCount: 200 },
-  { nodeCount: 100, randomEdgeCount: 300 }
+  { nodeCount: 100, randomEdgeCount: 300 },
 ];
 
-tests.forEach(test => {
+tests.forEach((test) => {
   test.input = dotStringify(randomGraph(test.nodeCount, test.randomEdgeCount));
 });
 

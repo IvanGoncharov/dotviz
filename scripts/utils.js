@@ -1,12 +1,12 @@
-import childProcess from "node:child_process";
-import fs from "node:fs";
-import os from "node:os";
-import path from "node:path";
-import url from "node:url";
+import childProcess from 'node:child_process';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import url from 'node:url';
 
 export function localRepoPath(...paths) {
   const resourcesDir = path.dirname(url.fileURLToPath(import.meta.url));
-  const repoDir = path.join(resourcesDir, "..");
+  const repoDir = path.join(resourcesDir, '..');
   return path.join(repoDir, ...paths);
 }
 
@@ -21,7 +21,7 @@ export function makeTmpDir(name) {
 }
 
 export function npm(options) {
-  const globalOptions = options?.quiet === true ? ["--quiet"] : [];
+  const globalOptions = options?.quiet === true ? ['--quiet'] : [];
 
   // `npm` points to an executable shell script; so it doesn't require a shell per se.
   // On Windows `shell: true` is required or `npm` will be picked rather than `npm.cmd`.
@@ -32,28 +32,28 @@ export function npm(options) {
 
   return {
     run(...args) {
-      spawn("npm", [...globalOptions, "run", ...args], npmOptions);
+      spawn('npm', [...globalOptions, 'run', ...args], npmOptions);
     },
     install(...args) {
-      spawn("npm", [...globalOptions, "install", ...args], npmOptions);
+      spawn('npm', [...globalOptions, 'install', ...args], npmOptions);
     },
     ci(...args) {
-      spawn("npm", [...globalOptions, "ci", ...args], npmOptions);
+      spawn('npm', [...globalOptions, 'ci', ...args], npmOptions);
     },
     exec(...args) {
-      spawn("npm", [...globalOptions, "exec", ...args], npmOptions);
+      spawn('npm', [...globalOptions, 'exec', ...args], npmOptions);
     },
     pack(...args) {
       return spawnOutput(
-        "npm",
-        [...globalOptions, "pack", ...args],
+        'npm',
+        [...globalOptions, 'pack', ...args],
         npmOptions,
       );
     },
     diff(...args) {
       return spawnOutput(
-        "npm",
-        [...globalOptions, "diff", ...args],
+        'npm',
+        [...globalOptions, 'diff', ...args],
         npmOptions,
       );
     },
@@ -61,27 +61,27 @@ export function npm(options) {
 }
 
 export function git(options) {
-  const cmdOptions = options?.quiet === true ? ["--quiet"] : [];
+  const cmdOptions = options?.quiet === true ? ['--quiet'] : [];
   return {
     clone(...args) {
-      spawn("git", ["clone", ...cmdOptions, ...args], options);
+      spawn('git', ['clone', ...cmdOptions, ...args], options);
     },
     checkout(...args) {
-      spawn("git", ["checkout", ...cmdOptions, ...args], options);
+      spawn('git', ['checkout', ...cmdOptions, ...args], options);
     },
     revParse(...args) {
-      return spawnOutput("git", ["rev-parse", ...cmdOptions, ...args], options);
+      return spawnOutput('git', ['rev-parse', ...cmdOptions, ...args], options);
     },
     revList(...args) {
-      const allArgs = ["rev-list", ...cmdOptions, ...args];
-      const result = spawnOutput("git", allArgs, options);
-      return result === "" ? [] : result.split("\n");
+      const allArgs = ['rev-list', ...cmdOptions, ...args];
+      const result = spawnOutput('git', allArgs, options);
+      return result === '' ? [] : result.split('\n');
     },
     catFile(...args) {
-      return spawnOutput("git", ["cat-file", ...cmdOptions, ...args], options);
+      return spawnOutput('git', ['cat-file', ...cmdOptions, ...args], options);
     },
     log(...args) {
-      return spawnOutput("git", ["log", ...cmdOptions, ...args], options);
+      return spawnOutput('git', ['log', ...cmdOptions, ...args], options);
     },
   };
 }
@@ -89,13 +89,13 @@ export function git(options) {
 function spawnOutput(command, args, options) {
   const result = childProcess.spawnSync(command, args, {
     maxBuffer: 10 * 1024 * 1024, // 10MB
-    stdio: ["inherit", "pipe", "inherit"],
-    encoding: "utf-8",
+    stdio: ['inherit', 'pipe', 'inherit'],
+    encoding: 'utf-8',
     ...options,
   });
 
   if (result.status !== 0) {
-    throw new Error(`Command failed: ${command} ${args.join(" ")}`);
+    throw new Error(`Command failed: ${command} ${args.join(' ')}`);
   }
 
   return result.stdout.toString().trimEnd();
@@ -103,11 +103,11 @@ function spawnOutput(command, args, options) {
 
 export function spawn(command, args, options) {
   const result = childProcess.spawnSync(command, args, {
-    stdio: "inherit",
+    stdio: 'inherit',
     ...options,
   });
   if (result.status !== 0) {
-    throw new Error(`Command failed: ${command} ${args.join(" ")}`);
+    throw new Error(`Command failed: ${command} ${args.join(' ')}`);
   }
 }
 

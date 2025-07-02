@@ -21,6 +21,7 @@
     "@rollup/plugin-terser": "0.4.4",
     "jsdom": "26.1.0",
     "mocha": "11.7.1",
+    "prettier": "3.6.2",
     "rollup": "4.44.1",
     "typedoc": "0.28.6",
     "typedoc-plugin-mdn-links": "5.0.2"
@@ -29,7 +30,10 @@
     "preversion": "bash ./scripts/checkgit.sh && npm ci --ignore-scripts",
     "version": "npm test",
     "build:npm": "node scripts/build-npm.js",
-    "test": "mocha",
+    "test": "npm run testonly && npm run prettier:check",
+    "prettier": "prettier --write --list-different .",
+    "prettier:check": "prettier --check .",
+    "testonly": "mocha",
     "docs": "typedoc types/index.d.ts"
   }
 }

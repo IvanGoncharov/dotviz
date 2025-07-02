@@ -1,67 +1,67 @@
-import assert from "node:assert/strict";
-import * as VizPackage from "../src/index.js";
-import Viz from "../src/viz.js";
+import assert from 'node:assert/strict';
+import * as VizPackage from '../src/index.js';
+import Viz from '../src/viz.js';
 
-describe("graphvizVersion", function() {
-  it("returns the Graphviz version", function() {
-    assert.strictEqual(VizPackage.graphvizVersion, "13.0.1");
+describe('graphvizVersion', function () {
+  it('returns the Graphviz version', function () {
+    assert.strictEqual(VizPackage.graphvizVersion, '13.0.1');
   });
 });
 
-describe("formats", function() {
-  it("returns the list of formats", function() {
+describe('formats', function () {
+  it('returns the list of formats', function () {
     assert.deepStrictEqual(VizPackage.formats, [
-      "canon",
-      "cmap",
-      "cmapx",
-      "cmapx_np",
-      "dot",
-      "dot_json",
-      "eps",
-      "fig",
-      "gv",
-      "imap",
-      "imap_np",
-      "ismap",
-      "json",
-      "json0",
-      "pic",
-      "plain",
-      "plain-ext",
-      "pov",
-      "ps",
-      "ps2",
-      "svg",
-      "svg_inline",
-      "tk",
-      "xdot",
-      "xdot1.2",
-      "xdot1.4",
-      "xdot_json"
+      'canon',
+      'cmap',
+      'cmapx',
+      'cmapx_np',
+      'dot',
+      'dot_json',
+      'eps',
+      'fig',
+      'gv',
+      'imap',
+      'imap_np',
+      'ismap',
+      'json',
+      'json0',
+      'pic',
+      'plain',
+      'plain-ext',
+      'pov',
+      'ps',
+      'ps2',
+      'svg',
+      'svg_inline',
+      'tk',
+      'xdot',
+      'xdot1.2',
+      'xdot1.4',
+      'xdot_json',
     ]);
   });
 });
 
-describe("engines", function() {
-  it("returns the list of layout engines", function() {
+describe('engines', function () {
+  it('returns the list of layout engines', function () {
     assert.deepStrictEqual(VizPackage.engines, [
-      "circo",
-      "dot",
-      "fdp",
-      "neato",
-      "nop",
-      "nop1",
-      "nop2",
-      "osage",
-      "patchwork",
-      "sfdp",
-      "twopi"
+      'circo',
+      'dot',
+      'fdp',
+      'neato',
+      'nop',
+      'nop1',
+      'nop2',
+      'osage',
+      'patchwork',
+      'sfdp',
+      'twopi',
     ]);
   });
 });
 
-describe("instance", function() {
-  it("returns a promise that resolves to an instance of the Viz class", async function() {
+describe('instance', function () {
+  it('returns a promise that resolves to an instance of the Viz class', async function () {
     const viz = await VizPackage.instance();
 
     assert.ok(viz instanceof Viz);

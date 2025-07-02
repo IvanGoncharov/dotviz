@@ -1,39 +1,39 @@
-import { type RenderOptions } from "@viz-js/viz";
+import { type RenderOptions } from '@viz-js/viz';
 
 let options: RenderOptions = {};
 
-options.format = "svg";
+options.format = 'svg';
 
-options.engine = "dot";
+options.engine = 'dot';
 
 options.yInvert = true;
 
 options.reduce = true;
 
 options.graphAttributes = {
-  rankdir: "LR",
+  rankdir: 'LR',
   width: 2,
-  label: { html: "<b>test</b>" },
-  test: true
+  label: { html: '<b>test</b>' },
+  test: true,
 };
 
 options.nodeAttributes = {
-  rankdir: "LR",
+  rankdir: 'LR',
   width: 2,
-  label: { html: "<b>test</b>" },
-  test: true
+  label: { html: '<b>test</b>' },
+  test: true,
 };
 
 options.edgeAttributes = {
-  rankdir: "LR",
+  rankdir: 'LR',
   width: 2,
-  label: { html: "<b>test</b>" },
-  test: true
+  label: { html: '<b>test</b>' },
+  test: true,
 };
 
-options.images = [{ name: "test.png", width: 300, height: 200 }];
+options.images = [{ name: 'test.png', width: 300, height: 200 }];
 
-options.images = [{ name: "test.png", width: "1cm", height: "1cm" }];
+options.images = [{ name: 'test.png', width: '1cm', height: '1cm' }];
 
 // @ts-expect-error
 options.format = false;
@@ -51,7 +51,7 @@ options.whatever = 123;
 options.graphAttributes = { something: { whatever: 123 } };
 
 // @ts-expect-error
-options.images = [{ name: "test.png" }];
+options.images = [{ name: 'test.png' }];
 
 // @ts-expect-error
-options.images = [{ url: "test.png" }];
+options.images = [{ url: 'test.png' }];

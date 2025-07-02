@@ -1,106 +1,98 @@
-import { type Graph } from "@viz-js/viz";
+import { type Graph } from '@viz-js/viz';
 
 let graph: Graph;
 
 graph = {};
 
 graph = {
-  edges: [
-    { tail: "a", head: "b" }
-  ]
+  edges: [{ tail: 'a', head: 'b' }],
 };
 
 graph = {
   directed: false,
   strict: false,
-  name: "G",
+  name: 'G',
   graphAttributes: {
-    label: "Test"
+    label: 'Test',
   },
   edgeAttributes: {
-    color: "green"
+    color: 'green',
   },
   nodeAttributes: {
-    shape: "circle"
+    shape: 'circle',
   },
-  nodes: [
-    { name: "a", attributes: { label: "A" } }
-  ],
-  edges: [
-    { tail: "a", head: "b", attributes: { label: "test" } }
-  ],
+  nodes: [{ name: 'a', attributes: { label: 'A' } }],
+  edges: [{ tail: 'a', head: 'b', attributes: { label: 'test' } }],
   subgraphs: [
     {
-      name: "cluster1",
+      name: 'cluster1',
       graphAttributes: {
-        color: "green"
+        color: 'green',
       },
       edgeAttributes: {
-        color: "blue"
+        color: 'blue',
       },
       nodeAttributes: {
-        color: "red"
+        color: 'red',
       },
       subgraphs: [
         {
-          nodes: [
-            { name: "b" }
-          ]
-        }
-      ]
-    }
-  ]
+          nodes: [{ name: 'b' }],
+        },
+      ],
+    },
+  ],
 };
 
 graph = {
   graphAttributes: {
     width: 2,
     abc: true,
-    label: { html: "<b>test</b>" }
+    label: { html: '<b>test</b>' },
   },
   nodes: [
     {
-      name: "a",
+      name: 'a',
       attributes: {
         width: 2,
         abc: true,
-        label: { html: "<b>test</b>" }
-      }
-    }
-  ]
+        label: { html: '<b>test</b>' },
+      },
+    },
+  ],
 };
 
 graph = {
   graphAttributes: {
     // @ts-expect-error
-    blah: null
-  }
+    blah: null,
+  },
 };
 
 graph = {
   graphAttributes: {
     // @ts-expect-error
-    label: { stuff: "abc" }
-  }
+    label: { stuff: 'abc' },
+  },
 };
 
 graph = {
   subgraphs: [
     {
       // @ts-expect-error
-      directed: false
-    }
-  ]
+      directed: false,
+    },
+  ],
 };
 
 graph = {
   subgraphs: [
     {
       // @ts-expect-error
-      strict: true
-    }
-  ]
+      strict: true,
+    },
+  ],
 };
 
 // @ts-expect-error
-graph = { a: "b" };
+graph = { a: 'b' };
