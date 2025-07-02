@@ -20,7 +20,6 @@
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-terser": "0.4.4",
     "jsdom": "26.1.0",
-    "mocha": "11.7.1",
     "prettier": "3.6.2",
     "rollup": "4.44.1",
     "typedoc": "0.28.6",
@@ -33,7 +32,7 @@
     "test": "npm run testonly && npm run prettier:check",
     "prettier": "prettier --write --list-different .",
     "prettier:check": "prettier --check .",
-    "testonly": "mocha",
+    "testonly": "node --test test/*.test.js",
     "docs": "typedoc types/index.d.ts"
   }
 }
