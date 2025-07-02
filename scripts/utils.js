@@ -23,39 +23,24 @@ export function makeTmpDir(name) {
 export function npm(options) {
   const globalOptions = options?.quiet === true ? ['--quiet'] : [];
 
-  // `npm` points to an executable shell script; so it doesn't require a shell per se.
-  // On Windows `shell: true` is required or `npm` will be picked rather than `npm.cmd`.
-  // This could alternatively be handled by manually selecting `npm.cmd` on Windows.
-  // See: https://github.com/nodejs/node/issues/3675 and in particular
-  // https://github.com/nodejs/node/issues/3675#issuecomment-308963807.
-  const npmOptions = { shell: true, ...options };
-
   return {
     run(...args) {
-      spawn('npm', [...globalOptions, 'run', ...args], npmOptions);
+      spawn('npm', [...globalOptions, 'run', ...args], options);
     },
     install(...args) {
-      spawn('npm', [...globalOptions, 'install', ...args], npmOptions);
+      spawn('npm', [...globalOptions, 'install', ...args], options);
     },
     ci(...args) {
-      spawn('npm', [...globalOptions, 'ci', ...args], npmOptions);
+      spawn('npm', [...globalOptions, 'ci', ...args], options);
     },
     exec(...args) {
-      spawn('npm', [...globalOptions, 'exec', ...args], npmOptions);
+      spawn('npm', [...globalOptions, 'exec', ...args], options);
     },
     pack(...args) {
-      return spawnOutput(
-        'npm',
-        [...globalOptions, 'pack', ...args],
-        npmOptions,
-      );
+      return spawnOutput('npm', [...globalOptions, 'pack', ...args], options);
     },
     diff(...args) {
-      return spawnOutput(
-        'npm',
-        [...globalOptions, 'diff', ...args],
-        npmOptions,
-      );
+      return spawnOutput('npm', [...globalOptions, 'diff', ...args], options);
     },
   };
 }

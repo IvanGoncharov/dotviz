@@ -1,10 +1,7 @@
-import assert from 'node:assert';
-import childProcess from 'node:child_process';
 import fs from 'node:fs';
-import path from 'node:path';
 
 import packageJSON from '../package.json' with { type: 'json' };
-import { spawn } from './utils.js';
+import { spawn, writeGeneratedFile } from './utils.js';
 
 import Viz from '../src/viz.js';
 
@@ -24,7 +21,7 @@ export function decode() {
   return bytes.buffer;
 }
 `;
-fs.writeFileSync('lib/encoded.js', encoded_js);
+writeGeneratedFile('lib/encoded.js', encoded_js);
 
 const Module = (await import('../lib/module.mjs')).default;
 const viz = new Viz(await Module({ wasm }));
@@ -32,7 +29,7 @@ const metadata_js = `export const graphvizVersion = ${JSON.stringify(viz.graphvi
 export const formats = ${JSON.stringify(viz.formats)};
 export const engines = ${JSON.stringify(viz.engines)};
 `;
-fs.writeFileSync('lib/metadata.js', metadata_js);
+writeGeneratedFile('lib/metadata.js', metadata_js);
 
 fs.rmSync('npmDist', { recursive: true, force: true });
 fs.mkdirSync('npmDist');
@@ -54,7 +51,7 @@ packageJSON.exports = {
 };
 
 // Should be done as the last step so only valid packages can be published
-fs.writeFileSync(
+writeGeneratedFile(
   './npmDist/package.json',
   JSON.stringify(packageJSON, null, 2),
 );
