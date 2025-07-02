@@ -4,6 +4,10 @@ import os from 'node:os';
 import path from 'node:path';
 import url from 'node:url';
 
+import prettier from 'prettier';
+
+import prettierConfig from '../.prettierrc.json' with { type: 'json' };
+
 export function localRepoPath(...paths) {
   const resourcesDir = path.dirname(url.fileURLToPath(import.meta.url));
   const repoDir = path.join(resourcesDir, '..');
@@ -109,7 +113,11 @@ function* readdirRecursive(dirPath) {
   }
 }
 
-export function writeGeneratedFile(filepath, body) {
+export async function writeGeneratedFile(filepath, body) {
   fs.mkdirSync(path.dirname(filepath), { recursive: true });
-  fs.writeFileSync(filepath, body);
+  const formatted = await prettier.format(body, {
+    filepath,
+    ...prettierConfig,
+  });
+  fs.writeFileSync(filepath, formatted);
 }

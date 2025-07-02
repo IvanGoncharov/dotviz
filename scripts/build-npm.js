@@ -21,7 +21,7 @@ export function decode() {
   return bytes.buffer;
 }
 `;
-writeGeneratedFile('lib/encoded.js', encoded_js);
+await writeGeneratedFile('lib/encoded.js', encoded_js);
 
 const Module = (await import('../lib/module.mjs')).default;
 const viz = new Viz(await Module({ wasm }));
@@ -29,7 +29,7 @@ const metadata_js = `export const graphvizVersion = ${JSON.stringify(viz.graphvi
 export const formats = ${JSON.stringify(viz.formats)};
 export const engines = ${JSON.stringify(viz.engines)};
 `;
-writeGeneratedFile('lib/metadata.js', metadata_js);
+await writeGeneratedFile('lib/metadata.js', metadata_js);
 
 fs.rmSync('npmDist', { recursive: true, force: true });
 fs.mkdirSync('npmDist');
@@ -51,7 +51,7 @@ packageJSON.exports = {
 };
 
 // Should be done as the last step so only valid packages can be published
-writeGeneratedFile(
+await writeGeneratedFile(
   './npmDist/package.json',
   JSON.stringify(packageJSON, null, 2),
 );

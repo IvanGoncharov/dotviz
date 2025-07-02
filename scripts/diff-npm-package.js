@@ -37,8 +37,8 @@ if (diff === '') {
   console.log('No changes found!');
 } else {
   const reportPath = localRepoPath('reports', 'npm-dist-diff.html');
-  writeGeneratedFile(reportPath, generateReport(diff));
-  console.log('Report saved to: ', reportPath);
+  await writeGeneratedFile(reportPath, generateReport(diff));
+  console.log(`Report saved to: file://${reportPath}`);
 }
 
 function generateReport(diffString) {
