@@ -49,6 +49,7 @@
         "build.zig",
         "build.zig.zon",
         "src",
+        "index.html",
         // For example...
         //"LICENSE",
         //"README.md",

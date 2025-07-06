@@ -42,8 +42,7 @@ pub fn build(b: *std.Build) !void {
     var emcc_settings = @import("zemscripten").emccDefaultSettings(b.allocator, .{
         .optimize = optimize,
     });
-
-    try emcc_settings.put("ALLOW_MEMORY_GROWTH", "1");
+    try emcc_settings.put("EXPORTED_FUNCTIONS", "['_main', '_viz_parse_json_to_svg', '_malloc', '_free', 'stringToNewUTF8', 'UTF8ToString']");
 
     const emcc_step = @import("zemscripten").emccStep(
         b,
