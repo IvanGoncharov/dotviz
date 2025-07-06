@@ -1,5 +1,6 @@
+/.cspellcache
+node_modules/
 lib/
 npmDist/
-node_modules/
 docs/
 reports/

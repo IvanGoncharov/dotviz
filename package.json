@@ -19,6 +19,7 @@
     "@babel/preset-env": "7.27.2",
     "@rollup/plugin-babel": "6.0.4",
     "@rollup/plugin-terser": "0.4.4",
+    "cspell": "9.1.3",
     "jsdom": "26.1.0",
     "prettier": "3.6.2",
     "rollup": "4.44.1",
@@ -26,12 +27,13 @@
     "typedoc-plugin-mdn-links": "5.0.2"
   },
   "scripts": {
-    "preversion": "bash ./scripts/checkgit.sh && npm ci --ignore-scripts",
+    "preversion": "bash ./scripts/check-git.sh && npm ci --ignore-scripts",
     "version": "npm test",
     "build:npm": "node scripts/build-npm.js",
-    "test": "npm run testonly && npm run prettier:check",
+    "test": "npm run testonly && npm run prettier:check && npm run check:spelling",
     "prettier": "prettier --write --list-different .",
     "prettier:check": "prettier --check .",
+    "check:spelling": "cspell --cache --no-progress \"**/*\"",
     "testonly": "node --test test/*.test.js",
     "docs": "typedoc types/index.d.ts"
   }

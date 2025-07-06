@@ -1,0 +1,63 @@
+language: en-gb
+useGitignore: true
+validateDirectives: true
+ignorePaths:
+  # Excluded from spelling check
+  - cspell.yml
+dictionaries:
+  - html
+
+overrides:
+  - filename: '**/*.svg'
+    dictionaries:
+      - css
+  - filename: './backend/Dockerfile'
+    ignoreRegExpList:
+      - '-l[a-z]*'
+    dictionaries:
+      - makefile
+      - cpp-refined
+    words:
+      - KEEPALIVE
+  - filename: './backend/*.c'
+    dictionaries:
+      - cpp-refined
+    words:
+      - errorf
+      - gvplugin
+      - AGWARN
+      - Agraph
+      - Agnode
+      - Agedge
+      - Agattr
+      - Agdesc
+      - agopen
+      - agsafeset
+      - agmemread
+      - agstrdup
+      - agstrfree
+      - agclose
+      - agsubg
+      - agseterr
+      - agseterrf
+      - agreseterrors
+words:
+  - testonly
+  - dotviz
+  - Goncharov
+  - Daines
+  - Graphviz
+  - Dagre
+  - rankdir
+  - headport
+  - cmap
+  - cmapx
+  - xdot
+  - twopi
+  - circo
+  - neato
+  - sfdp
+  - ccall
+  - Agerr
+  - AGPREV
+  - autoinstall

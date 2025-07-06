@@ -232,7 +232,7 @@ describe('Viz', function () {
       });
     });
 
-    it('renders valid input and does not include error messges when followed by a graph with a syntax error', function () {
+    it('renders valid input and does not include error messages when followed by a graph with a syntax error', function () {
       const result = viz.render('graph a { } graph {');
 
       assert.deepStrictEqual(result, {
@@ -360,6 +360,7 @@ stop
           {
             level: 'error',
             message:
+              /* cspell:disable-next-line */
               'syntax error in line 1 scanning a quoted string (missing endquote? longer than 16384?)\nString starting:" }',
           },
         ],
