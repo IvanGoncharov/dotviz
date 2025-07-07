@@ -78,6 +78,7 @@ for (const { label, fn } of tests) {
   for (let i = 0; i < 10000; i++) {
     const result = fn(viz);
 
+    // eslint-disable-next-line no-undef
     const current = process.memoryUsage.rss();
 
     if (i % 1000 == 999) {

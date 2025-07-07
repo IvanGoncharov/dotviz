@@ -2,7 +2,7 @@
 
 This project is started as fork of [Viz.js](https://github.com/mdaines/viz-js/tree/07c7ba02cc4776be216089b7ddbc31b90c0d67d6)
 
-```
+```text
 MIT License
 
 Copyright (c) Michael Daines

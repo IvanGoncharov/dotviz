@@ -58,7 +58,6 @@ export function randomGraph(nodeCount, randomEdgeCount = 0) {
 }
 
 export function dotStringify(obj) {
-  const edges = Array.from(obj);
   const result = [];
 
   result.push('digraph {\n');

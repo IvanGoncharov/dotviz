@@ -72,7 +72,7 @@ describe('Viz', function () {
     it('returns an SVG element', function () {
       try {
         const window = new JSDOM().window;
-        global.DOMParser = window.DOMParser;
+        globalThis.DOMParser = window.DOMParser;
 
         const svg = viz.renderSVGElement('digraph { a -> b }');
         assert.deepStrictEqual(
@@ -84,7 +84,7 @@ describe('Viz', function () {
           'a->b',
         );
       } finally {
-        delete global.DOMParser;
+        delete globalThis.DOMParser;
       }
     });
 

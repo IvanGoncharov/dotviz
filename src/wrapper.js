@@ -47,9 +47,9 @@ export function renderInput(module, input, formats, options) {
     imageFilePaths = createImageFiles(module, options.images);
 
     if (typeof input === 'string') {
-      graphPointer = readStringInput(module, input, options);
+      graphPointer = readStringInput(module, input);
     } else if (typeof input === 'object') {
-      graphPointer = readObjectInput(module, input, options);
+      graphPointer = readObjectInput(module, input);
     } else {
       throw new Error('input must be a string or object');
     }
@@ -209,7 +209,7 @@ function removeImageFiles(module, imageFilePaths) {
   }
 }
 
-function readStringInput(module, src, options) {
+function readStringInput(module, src) {
   let srcPointer;
 
   try {
@@ -230,7 +230,7 @@ function readStringInput(module, src, options) {
   }
 }
 
-function readObjectInput(module, object, options) {
+function readObjectInput(module, object) {
   const graphPointer = module.ccall(
     'viz_create_graph',
     'number',

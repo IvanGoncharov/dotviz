@@ -100,19 +100,6 @@ export function spawn(command, args, options) {
   }
 }
 
-function* readdirRecursive(dirPath) {
-  for (const name of fs.readdirSync(dirPath)) {
-    const filepath = path.join(dirPath, name);
-    const stats = fs.lstatSync(filepath);
-
-    if (stats.isDirectory()) {
-      yield* readdirRecursive(filepath);
-    } else {
-      yield { name, filepath, stats };
-    }
-  }
-}
-
 export async function writeGeneratedFile(filepath, body) {
   fs.mkdirSync(path.dirname(filepath), { recursive: true });
   const formatted = await prettier.format(body, {
