@@ -4,10 +4,13 @@ const core = @import("core.zig");
 const zemscripten = @import("zemscripten");
 pub const panic = zemscripten.panic;
 
+const expat = @cImport(@cInclude("expat.h"));
+
 pub const std_options = std.Options{
     .logFn = zemscripten.log,
 };
 export fn viz_parse_json_to_svg(cstring: [*c]u8) [*c]const u8 {
+    std.log.info("{s} {any}\n", .{ expat.XML_ExpatVersion(), expat.XML_ExpatVersionInfo() });
     var a = zemscripten.EmmalocAllocator{};
     const allocator = a.allocator();
     const string: [:0]const u8 = std.mem.span(cstring);

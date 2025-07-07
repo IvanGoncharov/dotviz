@@ -44,6 +44,10 @@
             .url = "git+https://github.com/zig-gamedev/zemscripten#dce5c0b043ff8cc8ae1bd2eb597fd86bfa94591c",
             .hash = "zemscripten-0.2.0-dev-sRlDqKdPAACNU94D6IU-7WYWoJhtCS7Yc28hjqOHVA5T",
         },
+        .libexpat = .{
+            .url = "git+https://github.com/allyourcodebase/libexpat.git?ref=2.7.1#917dcfdf644814a73b6a25eac6b2d434f9f1f99f",
+            .hash = "libexpat-2.7.1-y_akI1M7AAA1huPJVegH4dosRVA-lMRgzMuX9vC7aB1s",
+        },
     },
     .paths = .{
         "build.zig",

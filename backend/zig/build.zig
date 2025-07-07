@@ -30,6 +30,7 @@ pub fn build(b: *std.Build) !void {
     });
 
     const zemscripten = b.dependency("zemscripten", .{});
+    b.sysroot = b.dependency("emsdk", .{}).path("upstream/emscripten/cache/sysroot").getPath(b);
     const activate_emsdk_step = @import("zemscripten").activateEmsdkStep(b);
 
     wasm.root_module.addImport("zemscripten", zemscripten.module("root"));
@@ -44,6 +45,29 @@ pub fn build(b: *std.Build) !void {
     });
     try emcc_settings.put("EXPORTED_FUNCTIONS", "['_main', '_viz_parse_json_to_svg', '_malloc', '_free', 'stringToNewUTF8', 'UTF8ToString']");
 
+    // EXPAT
+    const expat_dep = b.dependency("libexpat", .{
+        .target = target,
+        .optimize = optimize,
+    });
+    const expat_artifact = expat_dep.artifact("expat");
+    expat_artifact.linkLibC();
+    var expat_settings = @import("zemscripten").emccDefaultSettings(b.allocator, .{
+        .optimize = optimize,
+    });
+    try expat_settings.put("EXPORTED_FUNCTIONS", "['stringToNewUTF8', 'UTF8ToString']");
+
+    expat_artifact.addIncludePath(.{ .dependency = .{
+        .dependency = b.dependency("emsdk", .{}),
+        .sub_path = "upstream/emscripten/cache/sysroot/include",
+    } });
+    wasm.addIncludePath(.{ .dependency = .{
+        .dependency = b.dependency("emsdk", .{}),
+        .sub_path = "upstream/emscripten/cache/sysroot/include",
+    } });
+    // EXPAT
+
+    wasm.linkLibrary(expat_artifact);
     const emcc_step = @import("zemscripten").emccStep(
         b,
         wasm,
