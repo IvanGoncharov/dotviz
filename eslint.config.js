@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import json from '@eslint/json';
 import markdown from '@eslint/markdown';
 import { defineConfig } from 'eslint/config';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 
 export default defineConfig([
@@ -17,9 +18,16 @@ export default defineConfig([
   },
   {
     files: ['**/*.{js,mjs,cjs}'],
-    plugins: { js },
+    plugins: {
+      js,
+      'simple-import-sort': simpleImportSort,
+    },
     languageOptions: { globals: globals['shared-node-browser'] },
     extends: ['js/recommended'],
+    rules: {
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+    },
   },
   {
     files: ['src/**/*.{js,mjs,cjs}'],

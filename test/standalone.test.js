@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
+
 import * as VizPackage from '../src/index.js';
 import Viz from '../src/viz.js';
 

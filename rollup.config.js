@@ -1,6 +1,7 @@
+import { readFile } from 'node:fs/promises';
+
 import babel from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
-import { readFile } from 'node:fs/promises';
 
 async function getBanner() {
   const filePath = new URL('./package.json', import.meta.url);

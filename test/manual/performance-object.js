@@ -1,5 +1,5 @@
 import { instance } from '../../src/index.js';
-import { measure, randomGraph, dotStringify } from './utils.js';
+import { dotStringify, measure, randomGraph } from './utils.js';
 
 const tests = [
   { nodeCount: 100, randomEdgeCount: 10 },
