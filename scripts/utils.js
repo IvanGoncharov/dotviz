@@ -4,7 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import url from 'node:url';
 
-import prettier from 'prettier';
+import { format } from 'prettier';
 
 import prettierConfig from '../.prettierrc.json' with { type: 'json' };
 
@@ -102,7 +102,7 @@ export function spawn(command, args, options) {
 
 export async function writeGeneratedFile(filepath, body) {
   fs.mkdirSync(path.dirname(filepath), { recursive: true });
-  const formatted = await prettier.format(body, {
+  const formatted = await format(body, {
     filepath,
     ...prettierConfig,
   });
