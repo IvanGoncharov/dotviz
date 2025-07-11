@@ -4,6 +4,7 @@ import markdown from '@eslint/markdown';
 import { defineConfig } from 'eslint/config';
 import { importX } from 'eslint-plugin-import-x';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 
 export default defineConfig([
@@ -25,10 +26,19 @@ export default defineConfig([
       'simple-import-sort': simpleImportSort,
     },
     languageOptions: { globals: globals['shared-node-browser'] },
-    extends: ['js/recommended', 'import-x/flat/recommended'],
+    extends: [
+      'js/recommended',
+      'import-x/flat/recommended',
+      eslintPluginUnicorn.configs.recommended,
+    ],
     rules: {
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
+      'import-x/first': 'error',
+      'import-x/newline-after-import': 'error',
+      'import-x/no-duplicates': 'error',
+
+      'unicorn/prevent-abbreviations': 'off',
     },
   },
   {

@@ -9,17 +9,17 @@ function makeObject() {
 
 function makeObjectWithLabels() {
   const graph = randomGraph(100, 10);
-  graph.nodes.forEach((node) => {
+  for (const node of graph.nodes) {
     node.attributes = { label: `${node.name}!` };
-  });
+  }
   return graph;
 }
 
 function makeObjectWithHTMLLabels() {
   const graph = randomGraph(100, 10);
-  graph.nodes.forEach((node) => {
+  for (const node of graph.nodes) {
     node.attributes = { label: { html: `<b>${node.name}</b>` } };
-  });
+  }
   return graph;
 }
 
@@ -75,7 +75,7 @@ for (const { label, fn } of tests) {
 
   let previous = 0;
 
-  for (let i = 0; i < 10000; i++) {
+  for (let i = 0; i < 10_000; i++) {
     const result = fn(viz);
 
     // eslint-disable-next-line no-undef

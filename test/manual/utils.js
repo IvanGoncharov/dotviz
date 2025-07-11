@@ -25,11 +25,7 @@ function quote(value) {
 
   const str = String(value);
 
-  if (skipQuotePattern.test(str)) {
-    return str;
-  } else {
-    return '"' + str.replaceAll('"', '\\"').replaceAll('\n', '\\n') + '"';
-  }
+  return skipQuotePattern.test(str) ? str : String.raw`"${str}"`;
 }
 
 export function randomGraph(nodeCount, randomEdgeCount = 0) {

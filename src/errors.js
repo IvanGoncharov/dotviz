@@ -5,9 +5,7 @@ const errorPatterns = [
 
 export function parseStderrMessages(messages) {
   return messages.map((message) => {
-    for (let i = 0; i < errorPatterns.length; i++) {
-      const [pattern, level] = errorPatterns[i];
-
+    for (const [pattern, level] of errorPatterns) {
       let match;
 
       if ((match = pattern.exec(message)) !== null) {
@@ -21,7 +19,7 @@ export function parseStderrMessages(messages) {
 
 export function parseAgerrMessages(messages) {
   const result = [];
-  let level = undefined;
+  let level;
 
   for (let i = 0; i < messages.length; i++) {
     if (messages[i] == 'Error' && messages[i + 1] == ': ') {

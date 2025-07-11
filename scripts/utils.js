@@ -79,7 +79,7 @@ function spawnOutput(command, args, options) {
   const result = childProcess.spawnSync(command, args, {
     maxBuffer: 10 * 1024 * 1024, // 10MB
     stdio: ['inherit', 'pipe', 'inherit'],
-    encoding: 'utf-8',
+    encoding: 'utf8',
     ...options,
   });
 

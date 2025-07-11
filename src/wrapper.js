@@ -51,7 +51,7 @@ export function renderInput(module, input, formats, options) {
     } else if (typeof input === 'object') {
       graphPointer = readObjectInput(module, input);
     } else {
-      throw new Error('input must be a string or object');
+      throw new TypeError('input must be a string or object');
     }
 
     if (graphPointer === 0) {
@@ -164,9 +164,10 @@ export function renderInput(module, input, formats, options) {
 }
 
 function parseErrorMessages(module) {
-  return parseAgerrMessages(module['agerrMessages']).concat(
-    parseStderrMessages(module['stderrMessages']),
-  );
+  return [
+    ...parseAgerrMessages(module['agerrMessages']),
+    ...parseStderrMessages(module['stderrMessages']),
+  ];
 }
 
 function createImageFiles(module, images) {
@@ -176,17 +177,17 @@ function createImageFiles(module, images) {
 
   return images.map((image) => {
     if (typeof image.name !== 'string') {
-      throw new Error('image name must be a string');
+      throw new TypeError('image name must be a string');
     } else if (
       typeof image.width !== 'number' &&
       typeof image.width !== 'string'
     ) {
-      throw new Error('image width must be a number or string');
+      throw new TypeError('image width must be a number or string');
     } else if (
       typeof image.height !== 'number' &&
       typeof image.height !== 'string'
     ) {
-      throw new Error('image height must be a number or string');
+      throw new TypeError('image height must be a number or string');
     }
 
     const path = module.PATH.join('/', image.name);
@@ -235,11 +236,7 @@ function readObjectInput(module, object) {
     'viz_create_graph',
     'number',
     ['string', 'number', 'number'],
-    [
-      object.name,
-      typeof object.directed !== 'undefined' ? object.directed : true,
-      typeof object.strict !== 'undefined' ? object.strict : false,
-    ],
+    [object.name, object.directed ?? true, object.strict ?? false],
   );
 
   readGraph(module, graphPointer, object);
@@ -251,7 +248,7 @@ function readGraph(module, graphPointer, graphData) {
   setDefaultAttributes(module, graphPointer, graphData);
 
   if (graphData.nodes) {
-    graphData.nodes.forEach((nodeData) => {
+    for (const nodeData of graphData.nodes) {
       const nodePointer = module.ccall(
         'viz_add_node',
         'number',
@@ -262,11 +259,11 @@ function readGraph(module, graphPointer, graphData) {
       if (nodeData.attributes) {
         setAttributes(module, graphPointer, nodePointer, nodeData.attributes);
       }
-    });
+    }
   }
 
   if (graphData.edges) {
-    graphData.edges.forEach((edgeData) => {
+    for (const edgeData of graphData.edges) {
       const edgePointer = module.ccall(
         'viz_add_edge',
         'number',
@@ -277,11 +274,11 @@ function readGraph(module, graphPointer, graphData) {
       if (edgeData.attributes) {
         setAttributes(module, graphPointer, edgePointer, edgeData.attributes);
       }
-    });
+    }
   }
 
   if (graphData.subgraphs) {
-    graphData.subgraphs.forEach((subgraphData) => {
+    for (const subgraphData of graphData.subgraphs) {
       const subgraphPointer = module.ccall(
         'viz_add_subgraph',
         'number',
@@ -290,7 +287,7 @@ function readGraph(module, graphPointer, graphData) {
       );
 
       readGraph(module, subgraphPointer, subgraphData);
-    });
+    }
   }
 }
 
@@ -349,23 +346,13 @@ function setAttributes(module, graphPointer, objectPointer, attributes) {
 }
 
 function withStringPointer(module, graphPointer, value, callbackFn) {
-  let stringPointer;
-
-  if (typeof value === 'object' && 'html' in value) {
-    stringPointer = module.ccall(
-      'viz_string_dup_html',
-      'number',
-      ['number', 'string'],
-      [graphPointer, String(value.html)],
-    );
-  } else {
-    stringPointer = module.ccall(
-      'viz_string_dup',
-      'number',
-      ['number', 'string'],
-      [graphPointer, String(value)],
-    );
-  }
+  const isHTML = typeof value === 'object' && 'html' in value;
+  const stringPointer = module.ccall(
+    isHTML ? 'viz_string_dup_html' : 'viz_string_dup',
+    'number',
+    ['number', 'string'],
+    [graphPointer, isHTML ? String(value.html) : String(value)],
+  );
 
   if (stringPointer == 0) {
     throw new Error("couldn't dup string");
@@ -373,19 +360,10 @@ function withStringPointer(module, graphPointer, value, callbackFn) {
 
   callbackFn(stringPointer);
 
-  if (typeof value === 'object' && 'html' in value) {
-    module.ccall(
-      'viz_string_free_html',
-      'number',
-      ['number', 'number'],
-      [graphPointer, stringPointer],
-    );
-  } else {
-    module.ccall(
-      'viz_string_free',
-      'number',
-      ['number', 'number'],
-      [graphPointer, stringPointer],
-    );
-  }
+  module.ccall(
+    isHTML ? 'viz_string_free_html' : 'viz_string_free',
+    'number',
+    ['number', 'number'],
+    [graphPointer, stringPointer],
+  );
 }

@@ -22,7 +22,7 @@ export function decode() {
 `;
 await writeGeneratedFile('lib/encoded.js', encoded_js);
 
-const Module = (await import('../lib/module.mjs')).default;
+const { default: Module } = await import('../lib/module.mjs');
 const viz = new Viz(await Module({ wasm }));
 const metadata_js = `export const graphvizVersion = ${JSON.stringify(viz.graphvizVersion)};
 export const formats = ${JSON.stringify(viz.formats)};
@@ -52,5 +52,5 @@ packageJSON.exports = {
 // Should be done as the last step so only valid packages can be published
 await writeGeneratedFile(
   './npmDist/package.json',
-  JSON.stringify(packageJSON, null, 2),
+  JSON.stringify(packageJSON, undefined, 2),
 );

@@ -88,7 +88,7 @@ function prepareNPMPackage(revision) {
 
   // Returns the complete git hash for a given git revision reference.
   const hash = git().revParse(revision);
-  assert(hash != null);
+  assert.ok(hash != undefined);
 
   const repoDir = tmpDirPath(hash);
   fs.rmSync(repoDir, { recursive: true, force: true });

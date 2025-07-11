@@ -13,9 +13,9 @@ const tests = [
   { nodeCount: 100, randomEdgeCount: 300 },
 ];
 
-tests.forEach((test) => {
+for (const test of tests) {
   test.input = dotStringify(randomGraph(test.nodeCount, test.randomEdgeCount));
-});
+}
 
 const timeLimit = 5000;
 

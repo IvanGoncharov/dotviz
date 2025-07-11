@@ -1,21 +1,15 @@
-import { readFile } from 'node:fs/promises';
-
 import { babel } from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
 
-async function getBanner() {
-  const filePath = new URL('./package.json', import.meta.url);
-  const contents = await readFile(filePath, { encoding: 'utf8' });
-  const packageVersion = JSON.parse(contents).version;
+import packageJSON from './package.json' with { type: 'json' };
 
-  return `/*!
-dotviz ${packageVersion}
+const banner = `/*!
+dotviz ${packageJSON.version}
 
 This distribution contains other software in object code form:
 Graphviz https://www.graphviz.org
 Expat https://libexpat.github.io
 */`;
-}
 
 export default [
   {
@@ -23,7 +17,7 @@ export default [
     output: {
       file: 'npmDist/viz.js',
       format: 'es',
-      banner: getBanner,
+      banner,
     },
     plugins: [
       babel({
@@ -37,7 +31,7 @@ export default [
     output: {
       file: 'npmDist/viz.cjs',
       format: 'cjs',
-      banner: getBanner,
+      banner,
     },
     plugins: [
       babel({
@@ -52,7 +46,7 @@ export default [
       name: 'Viz',
       file: 'npmDist/viz-global.js',
       format: 'umd',
-      banner: getBanner,
+      banner,
       plugins: [terser()],
     },
     plugins: [

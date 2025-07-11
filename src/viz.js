@@ -25,13 +25,7 @@ class Viz {
   }
 
   render(input, options = {}) {
-    let format;
-
-    if (options.format === void 0) {
-      format = 'dot';
-    } else {
-      format = options.format;
-    }
+    const format = options.format ?? 'dot';
 
     let result = renderInput(this.module, input, [format], {
       engine: 'dot',

@@ -208,8 +208,8 @@ describe('Viz', function () {
 
     it('throws if input is the wrong type', function () {
       assert.throws(() => {
-        viz.render(undefined);
-      }, /^Error: input must be a string or object/);
+        viz.render();
+      }, /^TypeError: input must be a string or object/);
     });
 
     it('returns only the error messages emitted for the current call', function () {
