@@ -207,9 +207,10 @@ describe('Viz', function () {
     });
 
     it('throws if input is the wrong type', function () {
-      assert.throws(() => {
-        viz.render();
-      }, /^TypeError: input must be a string or object/);
+      assert.throws(() => viz.render(), {
+        name: 'TypeError',
+        message: 'input must be a string or object',
+      });
     });
 
     it('returns only the error messages emitted for the current call', function () {
@@ -507,21 +508,30 @@ stop
           viz.render('...', {
             images: [{ src: 'test.png', width: 123, height: 456 }],
           }),
-        /image name/,
+        {
+          name: 'TypeError',
+          message: 'image name must be a string',
+        },
       );
       assert.throws(
         () =>
           viz.render('...', { images: [{ name: 'test.png', height: 123 }] }),
-        /image width/,
+        {
+          name: 'TypeError',
+          message: 'image width must be a number or string',
+        },
       );
       assert.throws(
         () => viz.render('...', { images: [{ name: 'test.png', width: 456 }] }),
-        /image height/,
+        {
+          name: 'TypeError',
+          message: 'image height must be a number or string',
+        },
       );
-      assert.throws(
-        () => viz.render('...', { images: ['test.png'] }),
-        /image name/,
-      );
+      assert.throws(() => viz.render('...', { images: ['test.png'] }), {
+        name: 'TypeError',
+        message: 'image name must be a string',
+      });
     });
   });
 });

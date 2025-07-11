@@ -23,39 +23,58 @@ describe('Viz', function () {
     });
 
     it('throws an error if the first graph has a syntax error', function () {
-      assert.throws(() => {
-        viz.renderString('graph {');
-      }, /^Error: syntax error/);
+      assert.throws(() => viz.renderString('graph {'), {
+        name: 'Error',
+        message: 'syntax error in line 1',
+      });
     });
 
     it('throws an error for layout errors', function () {
-      assert.throws(() => {
-        viz.renderString('graph { layout=invalid }');
-      }, /^Error: Layout type: "invalid" not recognized/);
+      assert.throws(() => viz.renderString('graph { layout=invalid }'), {
+        name: 'Error',
+        message:
+          'Layout type: "invalid" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi',
+      });
     });
 
     it('throws an error if there are no graphs in the input', function () {
-      assert.throws(() => {
-        viz.renderString('');
-      }, /^Error: render failed/);
+      assert.throws(() => viz.renderString(''), {
+        name: 'Error',
+        message: 'render failed',
+      });
     });
 
     it('throws an error with the first render error message', function () {
-      assert.throws(() => {
-        viz.renderString('graph { layout=invalid; x=1.2.3=y }');
-      }, /^Error: Layout type: "invalid" not recognized/);
+      assert.throws(
+        () => viz.renderString('graph { layout=invalid; x=1.2.3=y }'),
+        {
+          name: 'Error',
+          message:
+            'Layout type: "invalid" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi',
+        },
+      );
     });
 
     it('throws for invalid format option', function () {
-      assert.throws(() => {
-        viz.renderString('graph { }', { format: 'invalid' });
-      }, /^Error: Format: "invalid" not recognized/);
+      assert.throws(
+        () => viz.renderString('graph { }', { format: 'invalid' }),
+        {
+          name: 'Error',
+          message:
+            'Format: "invalid" not recognized. Use one of: canon cmap cmapx cmapx_np dot dot_json eps fig gv imap imap_np ismap json json0 pic plain plain-ext pov ps ps2 svg svg_inline tk xdot xdot1.2 xdot1.4 xdot_json',
+        },
+      );
     });
 
     it('throws for invalid engine option', function () {
-      assert.throws(() => {
-        viz.renderString('graph { }', { engine: 'invalid' });
-      }, /^Error: Layout type: "invalid" not recognized/);
+      assert.throws(
+        () => viz.renderString('graph { }', { engine: 'invalid' }),
+        {
+          name: 'Error',
+          message:
+            'Layout type: "invalid" not recognized. Use one of: circo dot fdp neato nop nop1 nop2 osage patchwork sfdp twopi',
+        },
+      );
     });
 
     it('accepts a non-ASCII character', function () {
@@ -63,9 +82,12 @@ describe('Viz', function () {
     });
 
     it('a graph with unterminated string followed by another call with a valid graph', function () {
-      assert.throws(() => {
-        viz.renderString('graph { a[label="blah');
-      }, /^Error: syntax error/);
+      assert.throws(() => viz.renderString('graph { a[label="blah'), {
+        name: 'Error',
+        message:
+          // cspell:disable-next-line
+          'syntax error in line 1 scanning a quoted string (missing endquote? longer than 16384?)\nString starting:"blah',
+      });
       assert.ok(viz.renderString('graph { a }'));
     });
   });
@@ -91,15 +113,17 @@ describe('Viz', function () {
     });
 
     it('throws an error for syntax errors', function () {
-      assert.throws(() => {
-        viz.renderSVGElement(`graph {`);
-      }, /^Error: syntax error/);
+      assert.throws(() => viz.renderSVGElement(`graph {`), {
+        name: 'Error',
+        message: 'syntax error in line 1',
+      });
     });
 
     it('throws an error if there are no graphs in the input', function () {
-      assert.throws(() => {
-        viz.renderSVGElement('');
-      }, /^Error: render failed/);
+      assert.throws(() => viz.renderSVGElement(''), {
+        name: 'Error',
+        message: 'render failed',
+      });
     });
   });
 
@@ -109,15 +133,17 @@ describe('Viz', function () {
     });
 
     it('throws an error for syntax errors', function () {
-      assert.throws(() => {
-        viz.renderJSON(`graph {`);
-      }, /^Error: syntax error/);
+      assert.throws(() => viz.renderJSON(`graph {`), {
+        name: 'Error',
+        message: 'syntax error in line 1',
+      });
     });
 
     it('throws an error if there are no graphs in the input', function () {
-      assert.throws(() => {
-        viz.renderJSON('');
-      }, /^Error: render failed/);
+      assert.throws(() => viz.renderJSON(''), {
+        name: 'Error',
+        message: 'render failed',
+      });
     });
   });
 });
